@@ -1,0 +1,27 @@
+{
+  "name": "unicamnodetest",
+  "version": "1.0.0",
+  "description": "a simple test of Node Js for didactical purpose",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eduardo1988/unicam.git"
+  },
+  "author": "eduardo romero",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eduardo1988/unicam/issues"
+  },
+  "homepage": "https://github.com/eduardo1988/unicam#readme",
+  "dependencies": {
+    "body": "^5.1.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "nodemon": "^1.18.3",
+    "sqlite3": "^4.0.2"
+  }
+}
