@@ -53,7 +53,7 @@ app.get('/', function(req,res){     // app è il root point(server) e quando arr
 
 //Definiamo la funzione checkAuthentication , e vede se esiste un utente (se è definito procedi(next()altrimenti viene reindirizzara "/" che in questo caso è login)
 var checkAutentication = function(req, res, next){
-    if(req.session && req.session.username){
+    if(req.session && req.session.admin_user){
         next();
     }
     else{
