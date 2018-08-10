@@ -8,12 +8,32 @@ var bodyParser = require('body-parser');
 //Instanzio un applicazione  di tipo express
 const app = express();
 
+//inizilizzo session
+var session = require('express-session');
+
+//Definiamo il coockieSession e il cookieParser visto che andranno ad essere 
+//utilizzati per la session
+var coockieSession = require('cookie-session');
+var cookieParser = require('cookie-parser');
+
+//Creo un oggetto (variabile) statico che si chiama admin_user
+const admin_user = {
+    user:"admin@admin.it",
+    password: "admin"
+}
+
 //Ci creaimo il nostro "Template"
 app.set('view engine','ejs');       // utilizzo il metodo set per dire che la view engine è 'ejs'
 
 //Configurazione per il bodyParser affinchè accetti .json e dati che gli vengono passati da un Form
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
+
+//Dopo aver aggiunto all'handler del login la gestione di autenticazione diciamo al server di usare il cookie di sessione
+app.use(coockieSession({
+    name: 'session',
+    keys: ['username']
+}));
 
 
 
@@ -31,6 +51,18 @@ app.get('/', function(req,res){     // app è il root point(server) e quando arr
 });
 */
 
+//Definiamo la funzione checkAuthentication , e vede se esiste un utente (se è definito procedi(next()altrimenti viene reindirizzara "/" che in questo caso è login)
+var checkAutentication = function(req, res, next){
+    if(req.session && req.session.username){
+        next();
+    }
+    else{
+        //user doesn't have access, return an HTTP 401 response
+        res.redirect("/");              // ridirigi l'utente sulla pagaina di login
+    }
+};
+
+
 //Gestione del login.ejs3
 app.get('/', function(req,res){ 
     res.render('login');        
@@ -44,10 +76,24 @@ app.post('/login', function(req,res){
     password = req.body.password;
     session = req.session;
     console.log(user,password);
-    return null;
+    session = req.session;
+    console.log("session",session);
+    
+    if(user== admin_user.user && password == admin_user.password) { //*riferimento all'oggetto statico sopra dichairato admin_user
+        session.admin_user = admin_user;
+        console.log("is authenticated")
+        res.redirect('/students');      //reindirizzami alla pagina students
+    } else{
+        res.redirect('/');      // di default è il login, pagina iniziale
+    }
 
     
 
+});
+
+//Definiamo l'handler della pagina students, 
+app.get('/students',checkAutentication, function(req, res){
+   res.render('students',admin_user);
 });
 
 
