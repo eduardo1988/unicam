@@ -16,6 +16,9 @@ var session = require('express-session');
 var coockieSession = require('cookie-session');
 var cookieParser = require('cookie-parser');
 
+//Chaiamta al modulo
+var sqllite = require("./module/sqlite.js");
+
 //Creo un oggetto (variabile) statico che si chiama admin_user
 const admin_user = {
     user:"admin@admin.it",
@@ -93,7 +96,12 @@ app.post('/login', function(req,res){
 
 //Definiamo l'handler della pagina students, 
 app.get('/students',checkAutentication, function(req, res){
-   res.render('students',admin_user);
+    
+    sqllite.getStudents( function(students) { // richiamo il metodo di questo modulo sqlite.js
+        res.render('students', {                // a cui passo il callback, che è la funzione che prende
+            "students": students                // come parametro gli studenti e reinderizza il template studenti passando la variabile student
+        });
+    });
 });
 
 

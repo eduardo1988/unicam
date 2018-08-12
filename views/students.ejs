@@ -11,7 +11,31 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <h1>sessione privata <%=user%>  </h1>
+    <!-- container con una tabella-->
+    <div class = "container">
+
+
+      <table class = "table">
+        <thead>
+          <tr>
+            <th scope ="col">*</th>
+            <th scope ="col">Nome</th>
+            <th scope = "col">Cognome</th>
+          </tr>
+        </thead>
+        <tbody>                                             <!--QUESTO E' UN MODO PER PASSARE UN ARRAY AD UN PAGINA E REINDIRIZZARE IN UNA TABELLA-->
+          <% students.forEach(function(student) { %>       <!--le operazioni venogno fatte tramite ap.js -->
+            <tr>
+              <td class ="align-baseline"><%=student.id%></td>
+              <td class ="align-top"><%=student.name%></td>
+              <td class="align-top"></td><%=student.surname%></td>
+            </tr>
+            <% }); %>
+
+          
+        </tbody>
+      </table>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
